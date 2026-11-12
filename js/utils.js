@@ -86,3 +86,14 @@ export const IC = {
 };
 export const icon = (n, cls='i') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||''}</svg>`;
 
+/**
+ * Máscara de dinheiro "estilo app de banco": a pessoa digita só números e os centavos,
+ * a vírgula e os pontos de milhar aparecem sozinhos (1 → 0,01 · 12 → 0,12 · 1234 → 12,34).
+ * Usada em todo <input data-money> (o listener fica em actions.js).
+ */
+export function maskMoneyInput(el){
+  const digits = el.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 13);
+  el.value = digits ? NUM2.format(Number(digits) / 100) : '';
+  const end = el.value.length;
+  try { el.setSelectionRange(end, end); } catch {}
+}

@@ -14,7 +14,7 @@ import { NAV_MAIN, NAV_SEC, ROUTES } from './render.js';
 import { cardById, catById, cats, goalSaved, incomeItems, incomes, invoiceTotal, linkedTx, monthItems, monthsUntil, payDayLabel, settings } from './selectors.js';
 import { SP, state } from './state.js';
 import { closeModal, confirmBox, mHead, openModal } from './ui.js';
-import { $, MONTHS, addMonths, esc, fmtDay, icon, lsSet, money, parseMoney, todayISO } from './utils.js';
+import { $, MONTHS, addMonths, esc, fmtDay, icon, lsSet, maskMoneyInput, money, parseMoney, todayISO } from './utils.js';
 
 /* ================= Actions ================= */
 export const ACT = {
@@ -108,6 +108,8 @@ document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target; const fn = {imp:submitImport, tx:submitTx, sub:submitSub, fixed:submitFixed, pay:submitPay, goal:submitGoal, move:submitMove, cat:submitCat, income:submitIncome, card:submitCard, buy:submitBuy}[f.dataset.form];
   fn && fn(f);
 });
+// Campos de dinheiro: aplica a máscara antes de qualquer outro código ler o valor (fase de captura)
+document.addEventListener('input', e => { if (e.target.matches && e.target.matches('input[data-money]')) maskMoneyInput(e.target); }, true);
 export let inputTimer = null;
 document.addEventListener('input', e => {
   const el = e.target, on = el.dataset.on; if (!on) return;

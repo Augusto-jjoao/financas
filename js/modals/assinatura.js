@@ -3,7 +3,7 @@ import { CYCLES, SUB_EMOJIS } from '../constants.js';
 import { colRef, put } from '../data/store.js';
 import { state } from '../state.js';
 import { catOptions, closeModal, defaultDate, mHead, openModal } from '../ui.js';
-import { $, $$, esc, icon, moneyInputVal, parseMoney, todayISO } from '../utils.js';
+import { $, $$, esc, icon, money, moneyInputVal, parseMoney, todayISO } from '../utils.js';
 
 /* --- Subscription modal --- */
 export function subModal(s){
@@ -11,7 +11,7 @@ export function subModal(s){
   const m = openModal(`<form data-form="sub">${mHead(isEdit?'Editar assinatura':'Nova assinatura')}<div class="modal-b">
     <div class="field"><span class="flabel">Ícone</span><div class="emoji-pick" id="ep">${SUB_EMOJIS.map(e=>`<button type="button" data-e="${e}" aria-pressed="${s.emoji===e}">${e}</button>`).join('')}</div><input type="hidden" name="emoji" value="${esc(s.emoji)}"></div>
     <div class="field"><label for="s-name">Nome</label><input class="input" id="s-name" name="name" placeholder="Ex.: Netflix, Spotify, iCloud…" value="${esc(s.name)}" required maxlength="40" autofocus></div>
-    <div class="fields-2"><div class="field"><label for="s-amount">Valor (R$)</label><input class="input num" id="s-amount" name="amount" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(s.amount)}" required></div>
+    <div class="fields-2"><div class="field"><label for="s-amount">Valor (R$)</label><input class="input num" id="s-amount" name="amount" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(s.amount)}" required></div>
     <div class="field"><label for="s-cycle">Cobrança</label><select class="select" id="s-cycle" name="cycle">${Object.entries(CYCLES).map(([k,v])=>`<option value="${k}" ${s.cycle===k?'selected':''}>${v.label}</option>`).join('')}</select></div></div>
     <div class="fields-2"><div class="field"><label for="s-next">Próxima cobrança</label><input class="input" type="date" id="s-next" name="nextDate" value="${esc(s.nextDate)}" required></div>
     <div class="field"><label for="s-cat">Categoria</label><select class="select" id="s-cat" name="cat">${catOptions('out', s.cat)}</select></div></div>

@@ -14,7 +14,7 @@ export function txModal(t, prefill){
     <div class="modal-b">
       <div class="typeseg" role="group" aria-label="Tipo"><button type="button" data-v="out" aria-pressed="${t.type==='out'}">${icon('down')}Saída</button><button type="button" data-v="in" aria-pressed="${t.type==='in'}">${icon('up')}Entrada</button></div>
       <input type="hidden" name="type" value="${esc(t.type)}">
-      <div class="field"><label for="f-amount">Valor (R$)</label><input class="input num amount-input" id="f-amount" name="amount" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(t.amount)}" required autofocus autocomplete="off"></div>
+      <div class="field"><label for="f-amount">Valor (R$)</label><input class="input num amount-input" id="f-amount" name="amount" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(t.amount)}" required autofocus autocomplete="off"></div>
       <div class="fields-2"><div class="field"><label for="f-date">Data</label><input class="input" type="date" id="f-date" name="date" value="${esc(t.date)}" required></div>
       <div class="field"><label for="f-cat">Categoria</label><select class="select" id="f-cat" name="cat">${catOptions(t.type, t.cat)}</select></div></div>
       <div class="field"><label for="f-desc">Descrição</label><input class="input" id="f-desc" name="desc" placeholder="Ex.: Mercado do mês, Salário…" value="${esc(t.desc)}" maxlength="80" autocomplete="off"></div>

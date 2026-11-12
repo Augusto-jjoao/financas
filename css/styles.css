@@ -302,6 +302,7 @@ body.ro [data-write]{display:none !important}
 /* ===== Tela de login e estados sem menu ===== */
 body.auth .sidebar, body.auth .topbar, body.auth .bottomnav, body.auth .fab, body.auth #banners{display:none !important}
 body.auth .app{grid-template-columns:1fr}
+body.auth .content{max-width:none}
 .login{min-height:82vh;display:grid;place-items:center}
 .login-card{max-width:420px;width:100%;text-align:center;padding:36px 28px}
 .login-card h1{margin:16px 0 6px;font-size:26px;letter-spacing:-.02em}

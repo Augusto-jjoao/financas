@@ -166,5 +166,10 @@ O Firestore gratuito permite cerca de **50 mil leituras e 20 mil gravações por
 ## 8. Privacidade e segurança
 
 - As regras do `firestore.rules` garantem que **só você** lê e grava a sua conta pessoal, e que **só os membros** acessam a conta conjunta.
+- **"Google API Key" no alerta do GitHub:** o GitHub avisa sempre que encontra uma chave no formato `AIza...`, mas a `apiKey` do Firebase **não é senha**. Ela só identifica o projeto, e o próprio Firebase orienta deixá-la no código do site. O que protege os dados são as regras do Firestore. Como camada extra, restrinja a chave aos seus endereços:
+  1. Abra <https://console.cloud.google.com/apis/credentials> com o projeto do Firebase selecionado e clique na chave **Browser key (auto created by Firebase)**.
+  2. Em **Restrições do aplicativo**, escolha **Sites** e adicione `https://SEU-USUARIO.github.io/*`, `https://SEU-PROJETO.firebaseapp.com/*` (é dele que vem a janela de login do Google), `http://127.0.0.1:5500/*` e `http://localhost:5500/*`.
+  3. Salve. A mudança pode levar alguns minutos para valer. Depois, feche o alerta no GitHub como **Won't fix**, com um comentário do tipo "chave pública do Firebase, restrita por domínio".
+- **O que nunca pode ir para o GitHub:** chaves de *service account* (arquivos JSON com `private_key`) e chaves de outros serviços pagos.
 - O código da conta conjunta funciona como uma senha: envie só para quem deve entrar.
 - Os backups baixados (`financas-*.json`) contêm seus dados financeiros. O `.gitignore` já impede que eles sejam enviados ao GitHub por engano.

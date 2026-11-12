@@ -4,14 +4,14 @@ import { saveTx } from './lancamento.js';
 import { catById, chargesInMonth } from '../selectors.js';
 import { state } from '../state.js';
 import { catOptions, closeModal, defaultDate, mHead, openModal } from '../ui.js';
-import { $, clamp, dim, esc, icon, moneyInputVal, pad, parseMoney, todayISO, ymLabel, ymNow } from '../utils.js';
+import { $, clamp, dim, esc, icon, money, moneyInputVal, pad, parseMoney, todayISO, ymLabel, ymNow } from '../utils.js';
 
 /* --- Fixed modal --- */
 export function fixedModal(f){
   const isEdit = !!f; f = f || {name:'', amount:'', dueDay: 10, cat:'moradia', variable:false, active:true};
   const m = openModal(`<form data-form="fixed">${mHead(isEdit?'Editar despesa fixa':'Nova despesa fixa')}<div class="modal-b">
     <div class="field"><label for="x-name">Nome</label><input class="input" id="x-name" name="name" placeholder="Ex.: Aluguel, Internet, Luz…" value="${esc(f.name)}" required maxlength="40" autofocus list="fixedSugg"><datalist id="fixedSugg">${['Aluguel','Condomínio','Internet','Luz','Água','Gás','Celular','IPTU','Plano de saúde','Academia','Escola','Financiamento'].map(x=>`<option value="${x}">`).join('')}</datalist></div>
-    <div class="fields-2"><div class="field"><label for="x-amount">Valor mensal (R$)</label><input class="input num" id="x-amount" name="amount" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(f.amount)}" required></div>
+    <div class="fields-2"><div class="field"><label for="x-amount">Valor mensal (R$)</label><input class="input num" id="x-amount" name="amount" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(f.amount)}" required></div>
     <div class="field"><label for="x-due">Dia do vencimento</label><input class="input" type="number" min="1" max="31" id="x-due" name="dueDay" value="${esc(f.dueDay||'')}"></div></div>
     <div class="field"><label for="x-cat">Categoria</label><select class="select" id="x-cat" name="cat">${catOptions('out', f.cat)}</select></div>
     <label class="check"><input type="checkbox" name="variable" ${f.variable?'checked':''}> O valor varia todo mês (ex.: luz, água) — vou confirmar o valor ao pagar</label>
@@ -32,7 +32,7 @@ export function payModal(kind, obj){
   const date = ym === ymNow() ? todayISO() : due;
   const m = openModal(`<form data-form="pay">${mHead(kind==='fixed'?'Registrar pagamento':'Lançar cobrança')}<div class="modal-b">
     <div class="row"><div class="emoji">${esc(kind==='fixed'?catById(obj.cat).emoji:(obj.emoji||'📺'))}</div><div><div style="font-weight:800">${esc(obj.name)}</div><div class="small muted">${ymLabel(ym)}</div></div></div>
-    <div class="fields-2"><div class="field"><label for="p-amount">Valor pago (R$)</label><input class="input num amount-input" id="p-amount" name="amount" inputmode="decimal" value="${moneyInputVal(obj.amount)}" required autofocus></div>
+    <div class="fields-2"><div class="field"><label for="p-amount">Valor pago (R$)</label><input class="input num amount-input" id="p-amount" name="amount" inputmode="numeric" data-money value="${moneyInputVal(obj.amount)}" required autofocus></div>
     <div class="field"><label for="p-date">Data</label><input class="input" type="date" id="p-date" name="date" value="${date}" required style="padding:16px 12px"></div></div>
   </div><div class="modal-f"><button type="button" class="btn ghost" data-act="closeModal">Cancelar</button><button class="btn" type="submit">${icon('check')}Confirmar</button></div></form>`);
   const form = m.querySelector('form'); form._kind = kind; form._obj = obj; form._ym = ym;

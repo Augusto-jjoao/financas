@@ -13,7 +13,7 @@ export function viewBudget(){
   const st = lim ? budgetStatus(T.out/lim) : null;
   let h = `<div class="grid g-main"><div class="card"><div class="card-h"><h3>Limite mensal geral</h3>${st?`<div class="right">${statusPill(st)}</div>`:''}</div>
     <div class="row wrap" style="gap:16px;align-items:flex-end">
-      <div class="field" style="max-width:220px"><label for="budgetTotal">Quanto quer gastar no máximo por mês?</label><input class="input num" id="budgetTotal" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(lim||'')}" data-on="budgetTotal" data-write></div>
+      <div class="field" style="max-width:220px"><label for="budgetTotal">Quanto quer gastar no máximo por mês?</label><input class="input num" id="budgetTotal" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(lim||'')}" data-on="budgetTotal" data-write></div>
       ${lim ? `<div><div class="num" style="font-size:24px;font-weight:800">${money(T.out)} <span class="muted small" style="font-weight:600">gastos de ${money(lim)}</span></div></div>` : ''}
     </div>
     ${lim ? `<div class="bar t-${st.t}" style="margin-top:16px;height:14px"><i class="planned" style="width:${clamp((T.out+plannedSum)/lim,0,1)*100}%"></i><i style="width:${clamp(T.out/lim,0,1)*100}%"></i></div>
@@ -26,7 +26,7 @@ export function viewBudget(){
     const stc = l ? budgetStatus(s/l) : null;
     return `<div class="item" style="flex-wrap:wrap"><div class="emoji sm">${esc(c.emoji)}</div><div class="main" style="min-width:160px"><div class="title">${esc(c.name)}</div><div class="meta"><span class="num">${money(s)} gasto${p?` · +${money(p)} previsto`:''}</span>${stc?statusPill(stc):''}</div>
       ${l ? `<div class="bar thin t-${stc.t}" style="margin-top:8px"><i class="planned" style="width:${clamp((s+p)/l,0,1)*100}%"></i><i style="width:${clamp(s/l,0,1)*100}%"></i></div>` : ''}</div>
-      <input class="input num" style="width:130px" inputmode="decimal" placeholder="Sem limite" aria-label="Limite para ${esc(c.name)}" value="${l?moneyInputVal(l):''}" data-on="budgetCat" data-id="${esc(c.id)}" id="bc-${esc(c.id)}" data-write></div>`;
+      <input class="input num" style="width:130px" inputmode="numeric" data-money placeholder="Sem limite" aria-label="Limite para ${esc(c.name)}" value="${l?moneyInputVal(l):''}" data-on="budgetCat" data-id="${esc(c.id)}" id="bc-${esc(c.id)}" data-write></div>`;
   }).join('');
   h += `</div></div>`;
   return h;

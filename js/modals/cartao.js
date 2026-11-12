@@ -11,7 +11,7 @@ export function cardModal(c){
   const isEdit = !!c; c = c || {name:'', limit:'', closingDay: 3, dueDay: 10, color:'roxo'};
   const m = openModal(`<form data-form="card">${mHead(isEdit?'Editar cartão':'Novo cartão')}<div class="modal-b">
     <div class="field"><label for="k-name">Nome do cartão</label><input class="input" id="k-name" name="name" placeholder="Ex.: Nubank, Itaú Visa…" value="${esc(c.name)}" required maxlength="30" autofocus></div>
-    <div class="field"><label for="k-limit">Limite total (R$)</label><input class="input num" id="k-limit" name="limit" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(c.limit)}"></div>
+    <div class="field"><label for="k-limit">Limite total (R$)</label><input class="input num" id="k-limit" name="limit" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(c.limit)}"></div>
     <div class="fields-2"><div class="field"><label for="k-close">Dia do fechamento</label><input class="input" type="number" min="1" max="31" id="k-close" name="closingDay" value="${esc(c.closingDay)}" required></div>
     <div class="field"><label for="k-due">Dia do vencimento</label><input class="input" type="number" min="1" max="31" id="k-due" name="dueDay" value="${esc(c.dueDay)}" required></div></div>
     <div class="field"><span class="flabel">Cor</span><div class="emoji-pick" id="ccColors">${Object.entries(CARD_COLORS).map(([k,g]) => `<button type="button" data-c="${k}" aria-pressed="${c.color===k}" aria-label="${k}" style="background:${g}"></button>`).join('')}</div><input type="hidden" name="color" value="${esc(c.color||'roxo')}"></div>
@@ -36,9 +36,9 @@ export function buyModal(b){
   const m = openModal(`<form data-form="buy">${mHead(isEdit?'Editar compra no cartão':'Nova compra no cartão')}<div class="modal-b">
     <div class="field"><label for="b-card">Cartão</label><select class="select" id="b-card" name="cardId">${sp.cards.map(c => `<option value="${esc(c.id)}" ${c.id===b.cardId?'selected':''}>💳 ${esc(c.name)}</option>`).join('')}</select></div>
     <div class="field"><label for="b-desc">Descrição</label><input class="input" id="b-desc" name="desc" placeholder="Ex.: Geladeira, Passagem aérea…" value="${esc(b.desc)}" required maxlength="60" autofocus></div>
-    <div class="fields-2"><div class="field"><label for="b-total">Valor total (R$)</label><input class="input num" id="b-total" name="total" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(b.total)}"></div>
+    <div class="fields-2"><div class="field"><label for="b-total">Valor total (R$)</label><input class="input num" id="b-total" name="total" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(b.total)}"></div>
     <div class="field"><label for="b-n">Parcelas</label><input class="input" type="number" min="1" max="72" id="b-n" name="n" value="${esc(b.n||1)}"></div></div>
-    <div class="fields-2"><div class="field"><label for="b-inst">Valor da parcela (R$)</label><input class="input num" id="b-inst" name="inst" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(b.inst)}"></div>
+    <div class="fields-2"><div class="field"><label for="b-inst">Valor da parcela (R$)</label><input class="input num" id="b-inst" name="inst" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(b.inst)}"></div>
     <div class="field"><label for="b-date">Data da compra</label><input class="input" type="date" id="b-date" name="date" value="${esc(b.date)}" required></div></div>
     <div class="fields-2"><div class="field"><label for="b-cat">Categoria</label><select class="select" id="b-cat" name="cat">${catOptions('out', b.cat)}</select></div>
     <div class="field"><label for="b-first">1ª parcela na fatura de</label><input class="input" type="month" id="b-first" name="firstDue" value="${esc(first)}" required></div></div>

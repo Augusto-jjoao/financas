@@ -14,9 +14,9 @@ export function goalModal(g){
   const m = openModal(`<form data-form="goal">${mHead(isEdit?'Editar meta':'Nova meta')}<div class="modal-b">
     <div class="field"><span class="flabel">Ícone</span><div class="emoji-pick" id="ep">${GOAL_EMOJIS.map(e=>`<button type="button" data-e="${e}" aria-pressed="${g.emoji===e}">${e}</button>`).join('')}</div><input type="hidden" name="emoji" value="${esc(g.emoji)}"></div>
     <div class="field"><label for="g-name">Nome da meta</label><input class="input" id="g-name" name="name" placeholder="Ex.: Viagem para o Chile, Computador novo…" value="${esc(g.name)}" required maxlength="40" autofocus></div>
-    <div class="fields-2"><div class="field"><label for="g-target">Quanto precisa (R$)</label><input class="input num" id="g-target" name="target" inputmode="decimal" placeholder="0,00" value="${moneyInputVal(g.target)}"></div>
+    <div class="fields-2"><div class="field"><label for="g-target">Quanto precisa (R$)</label><input class="input num" id="g-target" name="target" inputmode="numeric" data-money placeholder="0,00" value="${moneyInputVal(g.target)}"></div>
     <div class="field"><label for="g-deadline">Até quando? (opcional)</label><input class="input" type="month" id="g-deadline" name="deadline" value="${esc(g.deadline||'')}"></div></div>
-    ${isEdit ? '' : `<div class="field"><label for="g-init">Já tem algum valor guardado? (opcional)</label><input class="input num" id="g-init" name="init" inputmode="decimal" placeholder="0,00"></div>`}
+    ${isEdit ? '' : `<div class="field"><label for="g-init">Já tem algum valor guardado? (opcional)</label><input class="input num" id="g-init" name="init" inputmode="numeric" data-money placeholder="0,00"></div>`}
     <label class="check"><input type="checkbox" name="isReserve" ${g.isReserve?'checked':''}> Esta meta é minha reserva de emergência</label>
   </div><div class="modal-f">${isEdit?`<button type="button" class="btn danger" data-act="delGoal" data-id="${esc(g.id)}" style="margin-right:auto">${icon('trash')}Apagar</button>`:''}<button type="button" class="btn ghost" data-act="closeModal">Cancelar</button><button class="btn" type="submit">${icon('check')}Salvar</button></div></form>`);
   m.querySelector('form')._obj = g; emojiPicker(m);
@@ -37,7 +37,7 @@ export function moveModal(g, dir){
   const saved = goalSaved(g);
   const m = openModal(`<form data-form="move">${mHead(dir==='in'?'Guardar dinheiro':'Retirar dinheiro')}<div class="modal-b">
     <div class="row"><div class="emoji">${esc(g.emoji||'🎯')}</div><div><div style="font-weight:800">${esc(g.name)}</div><div class="small muted">Guardado: ${money(saved)}</div></div></div>
-    <div class="fields-2"><div class="field"><label for="mv-amount">Valor (R$)</label><input class="input num amount-input" id="mv-amount" name="amount" inputmode="decimal" placeholder="0,00" required autofocus></div>
+    <div class="fields-2"><div class="field"><label for="mv-amount">Valor (R$)</label><input class="input num amount-input" id="mv-amount" name="amount" inputmode="numeric" data-money placeholder="0,00" required autofocus></div>
     <div class="field"><label for="mv-date">Data</label><input class="input" type="date" id="mv-date" name="date" value="${defaultDate()}" style="padding:16px 12px"></div></div>
     <div class="field"><label for="mv-note">Observação (opcional)</label><input class="input" id="mv-note" name="note" maxlength="60" placeholder="${dir==='in'?'Ex.: sobra do mês':'Ex.: paguei a passagem'}"></div>
     <label class="check"><input type="checkbox" name="asTx"> ${dir==='in' ? 'Registrar também como saída do mês (categoria “Guardado / Investido”), descontando do saldo' : 'Registrar também como entrada do mês, somando ao saldo'}</label>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finanças</title>
+<meta name="description" content="Controle de finanças pessoais e da conta conjunta: lançamentos, cartão, assinaturas, metas e relatórios.">
+<meta name="theme-color" content="#2f5fd0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Navegação">
+    <div class="brand"><div class="brand-mark"><svg class="i" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div>Finanças</div>
+    <div class="space-switch" role="group" aria-label="Conta" id="spaceSwitch"></div>
+    <nav class="nav" id="sideNav"></nav>
+    <div class="side-foot" id="sideFoot"></div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <h1 id="pageTitle">Visão geral</h1>
+      <span class="sp-tag" id="spTag"></span>
+      <div class="top-actions">
+        <button class="icon-btn m-only" data-act="toggleSpace" title="Trocar conta" aria-label="Trocar entre conta pessoal e conjunta"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
+        <button class="icon-btn" data-act="toggleHide" id="hideBtn" title="Ocultar valores" aria-label="Ocultar valores"></button>
+        <button class="icon-btn" data-act="toggleTheme" id="themeBtn" title="Alternar tema" aria-label="Alternar modo claro/escuro"></button>
+        <button class="btn d-only" data-act="newTx" data-write><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Lançamento</button>
+      </div>
+      <div class="month-nav" id="monthNav">
+        <button class="icon-btn" data-act="prevMonth" aria-label="Mês anterior"><svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <span id="monthLabel"></span>
+        <button class="icon-btn" data-act="nextMonth" aria-label="Próximo mês"><svg class="i" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </header>
+    <div id="banners"></div>
+    <section class="content" id="view" aria-live="polite"></section>
+  </main>
+</div>
+<nav class="bottomnav" id="bottomNav" aria-label="Navegação"></nav>
+<button class="fab" data-act="newTx" aria-label="Novo lançamento" data-write><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+<div id="modal-root"></div>
+<div id="toast" role="status"></div>
+<div class="chart-tip" id="tip"></div>
+
+<!-- Todo o JavaScript fica na pasta js/. O main.js importa os outros módulos. -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

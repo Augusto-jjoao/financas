@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// Regras de segurança do Cloud Firestore.
+// Cole este arquivo inteiro em: Console do Firebase → Firestore Database → Regras → Publicar.
+//
+// Resumo:
+//  - users/{uid}/...       → só o próprio dono lê e escreve (conta pessoal).
+//  - households/{hid}/...  → só quem está na lista "members" lê e escreve (conta conjunta).
+//  - Para ENTRAR numa conta conjunta é preciso saber o código (o id do documento) e só dá
+//    para adicionar a si mesmo. Para SAIR, só dá para remover a si mesmo.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+
+    // ---------- Conta pessoal ----------
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+      match /{document=**} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // ---------- Conta conjunta ----------
+    match /households/{hid} {
+      function isMember() { return signedIn() && request.auth.uid in resource.data.members; }
+      function onlyMembersChanged() {
+        return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'memberNames']);
+      }
+
+      allow get: if isMember();
+      allow list: if false;
+
+      // Criar: a pessoa começa como único membro
+      allow create: if signedIn() && request.resource.data.members == [request.auth.uid];
+
+      allow update: if signedIn() && (
+        // membros editam os ajustes sem mexer na lista de membros
+        (isMember() && request.resource.data.members == resource.data.members)
+        // entrar com o código: adiciona só a si mesmo (máximo de 6 pessoas)
+        || (!(request.auth.uid in resource.data.members)
+            && request.resource.data.members == resource.data.members.concat([request.auth.uid])
+            && request.resource.data.members.size() <= 6
+            && onlyMembersChanged())
+        // sair: remove só a si mesmo
+        || (isMember()
+            && request.resource.data.members == resource.data.members.removeAll([request.auth.uid])
+            && onlyMembersChanged())
+      );
+      allow delete: if false;
+
+      // Tudo que fica dentro da conta conjunta (lançamentos, cartões, metas…)
+      match /{document=**} {
+        allow read, write: if signedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/households/$(hid)).data.members;
+      }
+    }
+  }
+}

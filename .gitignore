@@ -1,0 +1,13 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependências e ferramentas (caso você adicione no futuro)
+node_modules/
+.firebase/
+*.log
+
+# Backups exportados pelo app (contêm seus dados financeiros!)
+financas-*.json
+lancamentos-*.csv

@@ -13,7 +13,7 @@ export const firebaseConfig = null;
 
 */
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyArMQG7pbuQCkjHnx0BfjJBpU0_11vs3tM",
   authDomain: "coinspend-4cbd6.firebaseapp.com",
   projectId: "coinspend-4cbd6",
